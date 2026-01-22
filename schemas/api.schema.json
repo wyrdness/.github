@@ -1,0 +1,676 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://wyrdness.org/schemas/api.schema.json",
+  "title": "Wyrdness Phenomenon API Schema",
+  "description": "Standard schema for paranormal phenomenon documentation in the Wyrdness archive",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["meta", "phenomenon"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "description": "API metadata and versioning",
+      "required": ["version", "schema_version", "last_updated", "repository"],
+      "properties": {
+        "version": {
+          "type": "string",
+          "description": "Data version (semver)",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "examples": ["1.0.0"]
+        },
+        "schema_version": {
+          "type": "string",
+          "description": "Schema version this data conforms to",
+          "const": "1.0.0"
+        },
+        "last_updated": {
+          "type": "string",
+          "format": "date",
+          "description": "ISO 8601 date of last update"
+        },
+        "repository": {
+          "type": "string",
+          "format": "uri",
+          "description": "GitHub repository URL"
+        },
+        "maintainers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "github": { "type": "string" },
+              "role": { "type": "string" }
+            }
+          }
+        },
+        "license": {
+          "type": "object",
+          "properties": {
+            "data": { "type": "string", "default": "CC0-1.0" },
+            "content": { "type": "string", "default": "CC-BY-4.0" }
+          }
+        }
+      }
+    },
+
+    "phenomenon": {
+      "type": "object",
+      "description": "Core phenomenon data",
+      "required": ["id", "name", "category", "description", "status"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier (lowercase, hyphens)",
+          "pattern": "^[a-z0-9-]+$",
+          "examples": ["bigfoot", "loch-ness-monster", "mothman"]
+        },
+        "name": {
+          "type": "string",
+          "description": "Primary common name",
+          "examples": ["Bigfoot", "Loch Ness Monster"]
+        },
+        "aliases": {
+          "type": "array",
+          "description": "Alternative names and translations",
+          "items": {
+            "type": "object",
+            "required": ["name"],
+            "properties": {
+              "name": { "type": "string" },
+              "language": { "type": "string" },
+              "region": { "type": "string" },
+              "meaning": { "type": "string" }
+            }
+          },
+          "examples": [[
+            { "name": "Sasquatch", "language": "Salish", "meaning": "wild man" },
+            { "name": "Skunk Ape", "region": "Florida, USA" }
+          ]]
+        },
+        "category": {
+          "type": "string",
+          "description": "Primary category classification",
+          "enum": [
+            "CRYPTID",
+            "UFO_UAP",
+            "GHOST_HAUNTING",
+            "ENTITY_SPIRIT",
+            "DEMON_ANGEL",
+            "FAE_FOLKLORE",
+            "UNDEAD",
+            "SHAPESHIFTER",
+            "PSYCHIC_PHENOMENA",
+            "LOCATION",
+            "ANOMALY",
+            "URBAN_LEGEND"
+          ]
+        },
+        "subcategory": {
+          "type": "string",
+          "description": "More specific classification within category"
+        },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Searchable tags",
+          "examples": [["humanoid", "nocturnal", "forest-dwelling", "north-america"]]
+        },
+        "status": {
+          "type": "string",
+          "description": "Current research status",
+          "enum": ["active", "historical", "dormant", "debunked", "unverified"]
+        },
+        "description": {
+          "type": "object",
+          "required": ["summary"],
+          "properties": {
+            "summary": {
+              "type": "string",
+              "description": "Brief 1-2 sentence description",
+              "maxLength": 500
+            },
+            "full": {
+              "type": "string",
+              "description": "Complete detailed description"
+            }
+          }
+        },
+        "etymology": {
+          "type": "object",
+          "properties": {
+            "origin": { "type": "string" },
+            "meaning": { "type": "string" },
+            "first_use": { "type": "string" }
+          }
+        }
+      }
+    },
+
+    "classification": {
+      "type": "object",
+      "description": "Detailed taxonomic classification",
+      "properties": {
+        "taxonomy": {
+          "type": "object",
+          "properties": {
+            "category": { "type": "string" },
+            "type": { "type": "string" },
+            "subtype": { "type": "string" },
+            "variant": { "type": "string" }
+          }
+        },
+        "related_phenomena": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "name": { "type": "string" },
+              "relationship": {
+                "type": "string",
+                "enum": ["similar", "related", "subset", "superset", "counterpart", "regional_variant"]
+              },
+              "description": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+
+    "characteristics": {
+      "type": "object",
+      "description": "Physical and behavioral characteristics",
+      "properties": {
+        "physical": {
+          "type": "object",
+          "properties": {
+            "height": {
+              "type": "object",
+              "properties": {
+                "min": { "type": "number" },
+                "max": { "type": "number" },
+                "unit": { "type": "string", "default": "meters" },
+                "confidence": { "type": "string", "enum": ["high", "medium", "low", "variable"] }
+              }
+            },
+            "weight": {
+              "type": "object",
+              "properties": {
+                "min": { "type": "number" },
+                "max": { "type": "number" },
+                "unit": { "type": "string", "default": "kilograms" },
+                "confidence": { "type": "string", "enum": ["high", "medium", "low", "variable"] }
+              }
+            },
+            "coloration": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "features": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "feature": { "type": "string" },
+                  "description": { "type": "string" },
+                  "frequency": { "type": "string", "enum": ["always", "common", "occasional", "rare"] }
+                }
+              }
+            },
+            "morphology": { "type": "string" }
+          }
+        },
+        "abilities": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ability": { "type": "string" },
+              "description": { "type": "string" },
+              "frequency": { "type": "string", "enum": ["always", "common", "occasional", "rare"] },
+              "evidence_level": { "type": "string", "enum": ["documented", "reported", "folklore", "speculation"] }
+            }
+          }
+        },
+        "behavior": {
+          "type": "object",
+          "properties": {
+            "activity_period": {
+              "type": "string",
+              "enum": ["nocturnal", "diurnal", "crepuscular", "variable", "unknown"]
+            },
+            "disposition": {
+              "type": "string",
+              "enum": ["aggressive", "defensive", "passive", "neutral", "curious", "variable", "unknown"]
+            },
+            "social_structure": {
+              "type": "string",
+              "enum": ["solitary", "pair", "family_group", "pack", "colony", "variable", "unknown"]
+            },
+            "habitat_preference": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "diet": { "type": "string" },
+            "patterns": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+
+    "distribution": {
+      "type": "object",
+      "description": "Geographic and temporal distribution",
+      "properties": {
+        "range": {
+          "type": "object",
+          "properties": {
+            "description": { "type": "string" },
+            "continents": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "countries": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "regions": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        },
+        "hotspots": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "location"],
+            "properties": {
+              "name": { "type": "string" },
+              "location": {
+                "type": "object",
+                "properties": {
+                  "description": { "type": "string" },
+                  "country": { "type": "string" },
+                  "region": { "type": "string" },
+                  "coordinates": {
+                    "type": "object",
+                    "properties": {
+                      "latitude": { "type": "number", "minimum": -90, "maximum": 90 },
+                      "longitude": { "type": "number", "minimum": -180, "maximum": 180 }
+                    }
+                  }
+                }
+              },
+              "sighting_count": { "type": "integer" },
+              "peak_period": { "type": "string" },
+              "notes": { "type": "string" }
+            }
+          }
+        },
+        "temporal": {
+          "type": "object",
+          "properties": {
+            "first_recorded": {
+              "type": "object",
+              "properties": {
+                "date": { "type": "string" },
+                "circa": { "type": "boolean" },
+                "source": { "type": "string" }
+              }
+            },
+            "peak_activity_periods": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "period": { "type": "string" },
+                  "description": { "type": "string" }
+                }
+              }
+            },
+            "seasonal_patterns": { "type": "string" }
+          }
+        }
+      }
+    },
+
+    "history": {
+      "type": "object",
+      "description": "Historical timeline and key events",
+      "properties": {
+        "origins": {
+          "type": "object",
+          "properties": {
+            "cultural_roots": { "type": "string" },
+            "earliest_accounts": { "type": "string" },
+            "folklore_connections": { "type": "string" }
+          }
+        },
+        "timeline": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["date", "event"],
+            "properties": {
+              "date": { "type": "string" },
+              "event": { "type": "string" },
+              "significance": { "type": "string" },
+              "source": { "type": "string" }
+            }
+          }
+        },
+        "modern_era": { "type": "string" }
+      }
+    },
+
+    "sightings": {
+      "type": "object",
+      "description": "Sighting statistics and notable encounters",
+      "properties": {
+        "statistics": {
+          "type": "object",
+          "properties": {
+            "total_documented": { "type": "integer" },
+            "verified": { "type": "integer" },
+            "disputed": { "type": "integer" },
+            "debunked": { "type": "integer" },
+            "date_range": {
+              "type": "object",
+              "properties": {
+                "earliest": { "type": "string" },
+                "latest": { "type": "string" }
+              }
+            }
+          }
+        },
+        "notable": {
+          "type": "array",
+          "description": "Array of notable/significant sightings",
+          "items": { "$ref": "#/definitions/sighting" }
+        },
+        "database_path": {
+          "type": "string",
+          "description": "Path to full sightings database",
+          "default": "./sightings/"
+        }
+      }
+    },
+
+    "evidence": {
+      "type": "object",
+      "description": "Documented evidence",
+      "properties": {
+        "physical": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/evidence_item" }
+        },
+        "photographic": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/evidence_item" }
+        },
+        "video": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/evidence_item" }
+        },
+        "audio": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/evidence_item" }
+        },
+        "trace": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/evidence_item" }
+        },
+        "documentary": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/evidence_item" }
+        }
+      }
+    },
+
+    "theories": {
+      "type": "object",
+      "description": "Explanatory theories and hypotheses",
+      "properties": {
+        "paranormal": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "description": { "type": "string" },
+              "proponents": { "type": "array", "items": { "type": "string" } },
+              "evidence_cited": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        },
+        "scientific": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "description": { "type": "string" },
+              "proponents": { "type": "array", "items": { "type": "string" } },
+              "evidence_cited": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        },
+        "skeptical": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "description": { "type": "string" },
+              "proponents": { "type": "array", "items": { "type": "string" } },
+              "evidence_cited": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        }
+      }
+    },
+
+    "cultural": {
+      "type": "object",
+      "description": "Cultural significance and representations",
+      "properties": {
+        "folklore": {
+          "type": "object",
+          "properties": {
+            "traditions": { "type": "array", "items": { "type": "string" } },
+            "stories": { "type": "array", "items": { "type": "string" } },
+            "beliefs": { "type": "string" }
+          }
+        },
+        "indigenous": {
+          "type": "object",
+          "properties": {
+            "cultures": { "type": "array", "items": { "type": "string" } },
+            "significance": { "type": "string" },
+            "sensitivity_note": { "type": "string" },
+            "respect_guidelines": { "type": "string" }
+          }
+        },
+        "popular_culture": {
+          "type": "object",
+          "properties": {
+            "literature": { "type": "array", "items": { "type": "string" } },
+            "film_tv": { "type": "array", "items": { "type": "string" } },
+            "games": { "type": "array", "items": { "type": "string" } },
+            "music": { "type": "array", "items": { "type": "string" } },
+            "other": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      }
+    },
+
+    "research": {
+      "type": "object",
+      "description": "Research efforts and organizations",
+      "properties": {
+        "researchers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "affiliation": { "type": "string" },
+              "contribution": { "type": "string" },
+              "period": { "type": "string" }
+            }
+          }
+        },
+        "organizations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "url": { "type": "string", "format": "uri" },
+              "focus": { "type": "string" }
+            }
+          }
+        },
+        "ongoing_studies": { "type": "string" }
+      }
+    },
+
+    "sources": {
+      "type": "array",
+      "description": "Bibliography and references",
+      "items": { "$ref": "#/definitions/source" }
+    }
+  },
+
+  "definitions": {
+    "sighting": {
+      "type": "object",
+      "required": ["id", "date", "location", "description"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique sighting identifier"
+        },
+        "name": {
+          "type": "string",
+          "description": "Common name for this sighting if applicable"
+        },
+        "date": {
+          "type": "object",
+          "properties": {
+            "value": { "type": "string", "format": "date" },
+            "precision": { "type": "string", "enum": ["exact", "approximate", "range", "unknown"] },
+            "end_date": { "type": "string", "format": "date" }
+          }
+        },
+        "location": {
+          "type": "object",
+          "required": ["description"],
+          "properties": {
+            "description": { "type": "string" },
+            "country": { "type": "string" },
+            "region": { "type": "string" },
+            "locality": { "type": "string" },
+            "coordinates": {
+              "type": "object",
+              "properties": {
+                "latitude": { "type": "number" },
+                "longitude": { "type": "number" },
+                "precision": { "type": "string", "enum": ["exact", "approximate", "region"] }
+              }
+            }
+          }
+        },
+        "witnesses": {
+          "type": "object",
+          "properties": {
+            "count": { "type": "integer" },
+            "types": { "type": "array", "items": { "type": "string" } },
+            "credibility_factors": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed account of the sighting"
+        },
+        "conditions": {
+          "type": "object",
+          "properties": {
+            "weather": { "type": "string" },
+            "visibility": { "type": "string" },
+            "time_of_day": { "type": "string" },
+            "duration": { "type": "string" }
+          }
+        },
+        "evidence": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "credibility": {
+          "type": "object",
+          "properties": {
+            "rating": { "type": "string", "enum": ["high", "medium", "low", "unverified"] },
+            "factors": { "type": "array", "items": { "type": "string" } },
+            "notes": { "type": "string" }
+          }
+        },
+        "sources": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "featured": {
+          "type": "boolean",
+          "description": "Whether this is a notable/featured sighting"
+        }
+      }
+    },
+
+    "evidence_item": {
+      "type": "object",
+      "required": ["type", "description", "status"],
+      "properties": {
+        "id": { "type": "string" },
+        "type": { "type": "string" },
+        "name": { "type": "string" },
+        "date": { "type": "string" },
+        "description": { "type": "string" },
+        "location": { "type": "string" },
+        "status": {
+          "type": "string",
+          "enum": ["verified", "disputed", "debunked", "unverified", "lost"]
+        },
+        "analysis": { "type": "string" },
+        "file_path": { "type": "string" },
+        "url": { "type": "string", "format": "uri" },
+        "source": { "type": "string" }
+      }
+    },
+
+    "source": {
+      "type": "object",
+      "required": ["type", "title"],
+      "properties": {
+        "id": { "type": "string" },
+        "type": {
+          "type": "string",
+          "enum": ["book", "article", "paper", "website", "documentary", "interview", "news", "archive", "other"]
+        },
+        "title": { "type": "string" },
+        "authors": { "type": "array", "items": { "type": "string" } },
+        "publication": { "type": "string" },
+        "date": { "type": "string" },
+        "url": { "type": "string", "format": "uri" },
+        "isbn": { "type": "string" },
+        "doi": { "type": "string" },
+        "pages": { "type": "string" },
+        "accessed": { "type": "string", "format": "date" },
+        "notes": { "type": "string" }
+      }
+    }
+  }
+}

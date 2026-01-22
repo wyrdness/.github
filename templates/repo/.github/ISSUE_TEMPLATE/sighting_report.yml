@@ -1,0 +1,177 @@
+name: Sighting Report
+description: Submit a documented sighting or encounter
+title: "[SIGHTING] "
+labels: ["sighting", "needs-review"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Submit a Sighting Report
+        Thank you for contributing to the paranormal archive. Please provide as much detail as possible.
+
+        **Note**: All submissions are reviewed before being added to the database.
+
+  - type: input
+    id: date
+    attributes:
+      label: Date of Sighting
+      description: When did this occur? (YYYY-MM-DD format preferred)
+      placeholder: "2024-03-15 or March 2024 or circa 1970s"
+    validations:
+      required: true
+
+  - type: input
+    id: time
+    attributes:
+      label: Time of Sighting
+      description: What time did this occur?
+      placeholder: "Approximately 2:30 AM"
+    validations:
+      required: false
+
+  - type: input
+    id: location
+    attributes:
+      label: Location
+      description: Where did this occur? Be as specific as possible.
+      placeholder: "Pacific Northwest, near Mount Rainier, WA, USA"
+    validations:
+      required: true
+
+  - type: input
+    id: coordinates
+    attributes:
+      label: Coordinates (if known)
+      description: GPS coordinates if available
+      placeholder: "46.8523° N, 121.7603° W"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: witness_count
+    attributes:
+      label: Number of Witnesses
+      options:
+        - "1 (solo)"
+        - "2"
+        - "3-5"
+        - "6-10"
+        - "More than 10"
+        - "Unknown"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Detailed Description
+      description: Describe what was witnessed in as much detail as possible
+      placeholder: |
+        What did you see/hear/experience?
+        How long did the encounter last?
+        What were you doing at the time?
+        How did it end?
+    validations:
+      required: true
+
+  - type: textarea
+    id: physical_description
+    attributes:
+      label: Physical Description (if applicable)
+      description: Describe the appearance of what was witnessed
+      placeholder: |
+        Size/height estimate
+        Coloration
+        Distinguishing features
+        Movement/behavior
+    validations:
+      required: false
+
+  - type: textarea
+    id: conditions
+    attributes:
+      label: Environmental Conditions
+      description: Weather, visibility, and other relevant conditions
+      placeholder: |
+        Weather: Clear, light wind
+        Visibility: Good, full moon
+        Terrain: Dense forest
+    validations:
+      required: false
+
+  - type: dropdown
+    id: evidence_type
+    attributes:
+      label: Evidence Available
+      description: What evidence exists for this sighting?
+      multiple: true
+      options:
+        - "Photographs"
+        - "Video footage"
+        - "Audio recording"
+        - "Physical traces (footprints, etc.)"
+        - "Multiple witness statements"
+        - "Contemporary documentation"
+        - "None - eyewitness account only"
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence_details
+    attributes:
+      label: Evidence Details
+      description: Describe any evidence and how it can be accessed/verified
+      placeholder: |
+        Describe available evidence
+        Note: You can attach files after submitting
+    validations:
+      required: false
+
+  - type: dropdown
+    id: source_type
+    attributes:
+      label: Source Type
+      description: How are you aware of this sighting?
+      options:
+        - "Personal experience (I was a witness)"
+        - "Direct from witness (I know them personally)"
+        - "Historical record/document"
+        - "News report"
+        - "Book/publication"
+        - "Online source"
+        - "Other"
+    validations:
+      required: true
+
+  - type: input
+    id: source_reference
+    attributes:
+      label: Source Reference
+      description: If from a publication or record, provide citation
+      placeholder: "Book title, news article URL, etc."
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Submission Agreement
+      options:
+        - label: I confirm this is a genuine report (not a hoax or fabrication)
+          required: true
+        - label: I consent to this information being published in the archive
+          required: true
+        - label: I have not included any private personal information without consent
+          required: true
+        - label: I understand this will be reviewed and may be edited for clarity
+          required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Information
+      description: Any other relevant details
+    validations:
+      required: false

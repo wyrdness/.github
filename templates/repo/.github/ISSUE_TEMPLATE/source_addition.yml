@@ -1,0 +1,102 @@
+name: Source Addition
+description: Suggest a new source or reference
+title: "[SOURCE] "
+labels: ["source", "needs-review"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Suggest a New Source
+        Help expand our research base by suggesting credible sources.
+
+  - type: dropdown
+    id: source_type
+    attributes:
+      label: Source Type
+      options:
+        - "Academic paper/journal"
+        - "Book"
+        - "News article"
+        - "Documentary"
+        - "Historical document"
+        - "Government report"
+        - "Interview/testimony"
+        - "Website/blog"
+        - "Other"
+    validations:
+      required: true
+
+  - type: input
+    id: title
+    attributes:
+      label: Title
+      description: Title of the source
+      placeholder: "The Complete Guide to Cryptids"
+    validations:
+      required: true
+
+  - type: input
+    id: author
+    attributes:
+      label: Author(s)
+      placeholder: "John Smith, Jane Doe"
+    validations:
+      required: false
+
+  - type: input
+    id: publication
+    attributes:
+      label: Publication/Publisher
+      placeholder: "Penguin Books, Nature Journal, etc."
+    validations:
+      required: false
+
+  - type: input
+    id: date
+    attributes:
+      label: Publication Date
+      placeholder: "2023 or March 15, 2023"
+    validations:
+      required: false
+
+  - type: input
+    id: url
+    attributes:
+      label: URL (if available)
+      placeholder: "https://..."
+    validations:
+      required: false
+
+  - type: input
+    id: isbn_doi
+    attributes:
+      label: ISBN/DOI (if applicable)
+      placeholder: "ISBN: 978-0-123456-78-9 or DOI: 10.1000/xyz123"
+    validations:
+      required: false
+
+  - type: textarea
+    id: relevance
+    attributes:
+      label: Relevance
+      description: How is this source relevant? What information does it provide?
+      placeholder: |
+        Describe what this source covers
+        What new information would it add to the archive?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: credibility
+    attributes:
+      label: Source Credibility Assessment
+      description: Your assessment of the source's reliability
+      options:
+        - "High (peer-reviewed, official, well-documented)"
+        - "Medium (reputable but not academic)"
+        - "Low (unverified, but potentially valuable)"
+        - "Unknown"
+    validations:
+      required: true
