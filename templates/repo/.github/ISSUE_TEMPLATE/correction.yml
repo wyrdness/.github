@@ -1,0 +1,76 @@
+name: Data Correction
+description: Request a correction to existing data
+title: "[CORRECTION] "
+labels: ["correction", "needs-review"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Request a Data Correction
+        Help us maintain accurate data by reporting errors or outdated information.
+
+  - type: dropdown
+    id: correction_type
+    attributes:
+      label: Type of Correction
+      options:
+        - "Factual error"
+        - "Outdated information"
+        - "Missing information"
+        - "Spelling/grammar"
+        - "Broken link/reference"
+        - "Incorrect classification"
+        - "Source attribution"
+        - "Other"
+    validations:
+      required: true
+
+  - type: input
+    id: location
+    attributes:
+      label: Location in Repository
+      description: Where is the error? (file path, section, or URL)
+      placeholder: "README.md, section 'Notable Sightings' or api.json line 142"
+    validations:
+      required: true
+
+  - type: textarea
+    id: current_content
+    attributes:
+      label: Current Content
+      description: What does it currently say?
+      placeholder: "Copy/paste the incorrect content"
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggested_correction
+    attributes:
+      label: Suggested Correction
+      description: What should it say instead?
+      placeholder: "Provide the corrected content"
+    validations:
+      required: true
+
+  - type: textarea
+    id: justification
+    attributes:
+      label: Justification
+      description: Why is this correction needed? Cite sources if possible.
+      placeholder: |
+        Explain why this is incorrect
+        Provide sources/references supporting the correction
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Confirmation
+      options:
+        - label: I have verified this correction with reliable sources
+          required: true
+        - label: I am not attempting to introduce misinformation
+          required: true

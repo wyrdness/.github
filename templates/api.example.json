@@ -1,0 +1,687 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "schema_version": "1.0.0",
+    "last_updated": "2025-01-15",
+    "repository": "https://github.com/wyrdness/bigfoot",
+    "maintainers": [
+      {
+        "name": "Wyrdness Team",
+        "github": "wyrdness",
+        "role": "maintainer"
+      }
+    ],
+    "license": {
+      "data": "CC0-1.0",
+      "content": "CC-BY-4.0"
+    }
+  },
+
+  "phenomenon": {
+    "id": "bigfoot",
+    "name": "Bigfoot",
+    "aliases": [
+      {
+        "name": "Sasquatch",
+        "language": "Salish (Halkomelem)",
+        "region": "Pacific Northwest",
+        "meaning": "wild man, hairy man"
+      },
+      {
+        "name": "Skunk Ape",
+        "region": "Florida, USA",
+        "meaning": "Named for reported foul odor"
+      },
+      {
+        "name": "Grassman",
+        "region": "Ohio, USA"
+      },
+      {
+        "name": "Fouke Monster",
+        "region": "Arkansas, USA"
+      },
+      {
+        "name": "Momo",
+        "region": "Missouri, USA",
+        "meaning": "Missouri Monster"
+      },
+      {
+        "name": "Ts'emekwes",
+        "language": "Lummi",
+        "region": "Pacific Northwest"
+      }
+    ],
+    "category": "CRYPTID",
+    "subcategory": "Humanoid",
+    "tags": [
+      "humanoid",
+      "bipedal",
+      "primate",
+      "forest-dwelling",
+      "north-america",
+      "nocturnal",
+      "large-creature"
+    ],
+    "status": "active",
+    "description": {
+      "summary": "A large, hairy, bipedal humanoid creature reported throughout North America, particularly in the Pacific Northwest. One of the most well-documented cryptids with thousands of reported sightings.",
+      "full": "Bigfoot, also known as Sasquatch, is a large, ape-like creature purported to inhabit the forests of North America. Described as standing 6-10 feet tall, covered in dark hair, and possessing a strong, unpleasant odor, Bigfoot has been reported by thousands of witnesses over several centuries. The phenomenon gained widespread attention in the 1950s-60s and remains one of the most actively investigated cryptids. While no conclusive physical evidence has been scientifically verified, the volume of consistent eyewitness accounts, physical traces, and cultural significance make Bigfoot a cornerstone of cryptozoological research."
+    },
+    "etymology": {
+      "origin": "The term 'Bigfoot' was coined by journalist Andrew Genzoli of the Humboldt Times in 1958, referring to large footprints discovered in Northern California.",
+      "meaning": "Named for the large footprints (up to 24 inches) commonly associated with sightings",
+      "first_use": "1958"
+    }
+  },
+
+  "classification": {
+    "taxonomy": {
+      "category": "CRYPTID",
+      "type": "Humanoid",
+      "subtype": "Primate-like",
+      "variant": "North American"
+    },
+    "related_phenomena": [
+      {
+        "id": "yeti",
+        "name": "Yeti",
+        "relationship": "similar",
+        "description": "Himalayan equivalent, also known as Abominable Snowman"
+      },
+      {
+        "id": "yowie",
+        "name": "Yowie",
+        "relationship": "regional_variant",
+        "description": "Australian cryptid hominid"
+      },
+      {
+        "id": "almas",
+        "name": "Almas",
+        "relationship": "similar",
+        "description": "Central Asian wild man"
+      },
+      {
+        "id": "orang-pendek",
+        "name": "Orang Pendek",
+        "relationship": "similar",
+        "description": "Short bipedal primate of Sumatra"
+      }
+    ]
+  },
+
+  "characteristics": {
+    "physical": {
+      "height": {
+        "min": 1.8,
+        "max": 3.0,
+        "unit": "meters",
+        "confidence": "medium"
+      },
+      "weight": {
+        "min": 200,
+        "max": 450,
+        "unit": "kilograms",
+        "confidence": "low"
+      },
+      "coloration": [
+        "dark brown",
+        "black",
+        "reddish-brown",
+        "gray (reported in older specimens)"
+      ],
+      "features": [
+        {
+          "feature": "Body hair",
+          "description": "Covered in thick, coarse hair 2-4 inches long",
+          "frequency": "always"
+        },
+        {
+          "feature": "Facial structure",
+          "description": "Flat face with heavy brow ridge, human-like but more primitive",
+          "frequency": "common"
+        },
+        {
+          "feature": "Eyes",
+          "description": "Often described as reflective or glowing, typically red or yellow at night",
+          "frequency": "common"
+        },
+        {
+          "feature": "Sagittal crest",
+          "description": "Pronounced ridge on top of skull, similar to gorillas",
+          "frequency": "occasional"
+        },
+        {
+          "feature": "Large feet",
+          "description": "Footprints typically 14-24 inches long, 5-toed",
+          "frequency": "always"
+        },
+        {
+          "feature": "Odor",
+          "description": "Strong, unpleasant smell often compared to sulfur, skunk, or rotting garbage",
+          "frequency": "common"
+        }
+      ],
+      "morphology": "Bipedal humanoid with ape-like features. Muscular build with broad shoulders. Arms proportionally longer than human. No visible neck in many reports."
+    },
+    "abilities": [
+      {
+        "ability": "Wood knocking",
+        "description": "Produces loud knocking sounds by striking trees",
+        "frequency": "common",
+        "evidence_level": "documented"
+      },
+      {
+        "ability": "Vocalizations",
+        "description": "Range of sounds including howls, screams, whoops, and growls",
+        "frequency": "common",
+        "evidence_level": "documented"
+      },
+      {
+        "ability": "Stealth",
+        "description": "Ability to move silently through dense forest",
+        "frequency": "common",
+        "evidence_level": "reported"
+      },
+      {
+        "ability": "Rock throwing",
+        "description": "Reported to throw rocks at observers or campsites",
+        "frequency": "occasional",
+        "evidence_level": "reported"
+      },
+      {
+        "ability": "Infrasound production",
+        "description": "Some researchers theorize production of disorienting low-frequency sounds",
+        "frequency": "rare",
+        "evidence_level": "speculation"
+      }
+    ],
+    "behavior": {
+      "activity_period": "nocturnal",
+      "disposition": "neutral",
+      "social_structure": "variable",
+      "habitat_preference": [
+        "dense forest",
+        "mountainous terrain",
+        "river valleys",
+        "wilderness areas"
+      ],
+      "diet": "Presumed omnivorous based on habitat",
+      "patterns": [
+        "Avoids human contact",
+        "Curious about human activity from distance",
+        "Territorial behavior reported",
+        "Seasonal movement patterns suggested"
+      ]
+    }
+  },
+
+  "distribution": {
+    "range": {
+      "description": "Primarily North America, with highest concentration in Pacific Northwest. Reports span from Alaska to Florida, and from California to the Atlantic seaboard.",
+      "continents": ["North America"],
+      "countries": ["United States", "Canada"],
+      "regions": [
+        "Pacific Northwest",
+        "Northern California",
+        "British Columbia",
+        "Ohio River Valley",
+        "Florida Everglades",
+        "Appalachian Mountains"
+      ]
+    },
+    "hotspots": [
+      {
+        "name": "Bluff Creek",
+        "location": {
+          "description": "Bluff Creek, Six Rivers National Forest",
+          "country": "United States",
+          "region": "Northern California",
+          "coordinates": {
+            "latitude": 41.4494,
+            "longitude": -123.8172
+          }
+        },
+        "sighting_count": 150,
+        "peak_period": "1958-1970",
+        "notes": "Site of Patterson-Gimlin film and original 1958 footprint discoveries"
+      },
+      {
+        "name": "Ape Canyon",
+        "location": {
+          "description": "Mount St. Helens area",
+          "country": "United States",
+          "region": "Washington",
+          "coordinates": {
+            "latitude": 46.1879,
+            "longitude": -122.1900
+          }
+        },
+        "sighting_count": 75,
+        "peak_period": "1924-present",
+        "notes": "Site of famous 1924 attack incident"
+      },
+      {
+        "name": "Harrison Hot Springs",
+        "location": {
+          "description": "Harrison Lake area",
+          "country": "Canada",
+          "region": "British Columbia",
+          "coordinates": {
+            "latitude": 49.2992,
+            "longitude": -121.7850
+          }
+        },
+        "sighting_count": 200,
+        "peak_period": "1950s-present",
+        "notes": "Dense cluster of Canadian sightings"
+      }
+    ],
+    "temporal": {
+      "first_recorded": {
+        "date": "Pre-colonial",
+        "circa": true,
+        "source": "Indigenous oral traditions predate European contact"
+      },
+      "peak_activity_periods": [
+        {
+          "period": "1958-1980",
+          "description": "Golden age of Bigfoot research following Bluff Creek discoveries"
+        },
+        {
+          "period": "2000-present",
+          "description": "Digital era resurgence with trail cameras and online reporting"
+        }
+      ],
+      "seasonal_patterns": "Higher report frequency in late summer and fall months"
+    }
+  },
+
+  "history": {
+    "origins": {
+      "cultural_roots": "Indigenous peoples of North America have long-standing traditions involving large, hairy wild men. These include the Ts'emekwes of the Lummi, the Sasquatch of the Sts'ailes, and numerous other tribal traditions.",
+      "earliest_accounts": "Indigenous oral traditions dating back centuries. First European-documented accounts from the 1800s.",
+      "folklore_connections": "Connected to worldwide 'wild man' mythology including European woodwose, Asian yeti, and Australian yowie traditions."
+    },
+    "timeline": [
+      {
+        "date": "1811",
+        "event": "David Thompson finds large footprints",
+        "significance": "First documented European encounter with Bigfoot tracks near Jasper, Alberta",
+        "source": "Thompson's journals"
+      },
+      {
+        "date": "1924-07-10",
+        "event": "Ape Canyon incident",
+        "significance": "Miners report attack by 'ape-men' at Mount St. Helens, generating national press coverage",
+        "source": "Contemporary newspaper reports"
+      },
+      {
+        "date": "1958-08-27",
+        "event": "Bluff Creek footprints discovered",
+        "significance": "Jerry Crew finds massive footprints, Andrew Genzoli coins 'Bigfoot' in newspaper coverage",
+        "source": "Humboldt Times"
+      },
+      {
+        "date": "1967-10-20",
+        "event": "Patterson-Gimlin film",
+        "significance": "Most famous and controversial Bigfoot footage captured at Bluff Creek",
+        "source": "Original film footage"
+      },
+      {
+        "date": "1969",
+        "event": "BFRO founded",
+        "significance": "Bigfoot Field Researchers Organization established, systematizing research",
+        "source": "Organization records"
+      },
+      {
+        "date": "2002",
+        "event": "Ray Wallace confession",
+        "significance": "Family claims Wallace faked 1958 footprints, though disputed by researchers",
+        "source": "News reports following Wallace's death"
+      }
+    ],
+    "modern_era": "Modern Bigfoot research combines traditional field investigation with advanced technology including thermal imaging, audio analysis, and environmental DNA sampling. The phenomenon maintains strong cultural presence through media, tourism, and dedicated research organizations."
+  },
+
+  "sightings": {
+    "statistics": {
+      "total_documented": 10000,
+      "verified": 0,
+      "disputed": 8500,
+      "debunked": 1200,
+      "date_range": {
+        "earliest": "1811",
+        "latest": "2025"
+      }
+    },
+    "notable": [
+      {
+        "id": "bigfoot-sighting-1967-pgf",
+        "name": "Patterson-Gimlin Film",
+        "date": {
+          "value": "1967-10-20",
+          "precision": "exact"
+        },
+        "location": {
+          "description": "Bluff Creek, Six Rivers National Forest",
+          "country": "United States",
+          "region": "California",
+          "locality": "Del Norte County",
+          "coordinates": {
+            "latitude": 41.4494,
+            "longitude": -123.8172,
+            "precision": "approximate"
+          }
+        },
+        "witnesses": {
+          "count": 2,
+          "types": ["Cowboys/ranchers"],
+          "credibility_factors": ["Experienced outdoorsmen", "Consistent testimony over decades"]
+        },
+        "description": "Roger Patterson and Bob Gimlin captured approximately 53 seconds of 16mm film showing a large, bipedal, hair-covered figure walking along a creek bed. The figure, often referred to as 'Patty', turns and looks at the camera before walking away into the forest. The film has been analyzed extensively and remains controversial, with experts divided on its authenticity.",
+        "conditions": {
+          "weather": "Clear",
+          "visibility": "Good",
+          "time_of_day": "Afternoon",
+          "duration": "Several minutes (film 53 seconds)"
+        },
+        "evidence": [
+          "16mm film footage",
+          "Plaster casts of footprints",
+          "Witness testimony"
+        ],
+        "credibility": {
+          "rating": "medium",
+          "factors": [
+            "Consistent witness testimony",
+            "Film analyzed by multiple experts",
+            "No definitive proof of hoax",
+            "Some costume experts claim it could be fabricated"
+          ],
+          "notes": "Most analyzed piece of cryptid evidence in history. Hollywood effects experts and biomechanists remain divided."
+        },
+        "sources": [
+          "Patterson, R. & Murphy, C. (2005). The Bigfoot Film Controversy",
+          "Meldrum, J. (2006). Sasquatch: Legend Meets Science"
+        ],
+        "featured": true
+      },
+      {
+        "id": "bigfoot-sighting-1924-apecanyon",
+        "name": "Ape Canyon Attack",
+        "date": {
+          "value": "1924-07-10",
+          "precision": "approximate"
+        },
+        "location": {
+          "description": "Ape Canyon, Mount St. Helens",
+          "country": "United States",
+          "region": "Washington",
+          "locality": "Skamania County",
+          "coordinates": {
+            "latitude": 46.1879,
+            "longitude": -122.1900,
+            "precision": "approximate"
+          }
+        },
+        "witnesses": {
+          "count": 5,
+          "types": ["Miners"],
+          "credibility_factors": ["Multiple witnesses", "Physical evidence at scene"]
+        },
+        "description": "Five miners reported being attacked by several 'ape-men' who threw rocks at their cabin throughout the night. The miners claimed to have shot one of the creatures, which fell into a canyon. The incident generated significant newspaper coverage and the location was subsequently named 'Ape Canyon'.",
+        "conditions": {
+          "weather": "Clear",
+          "visibility": "Night attack, daylight sighting",
+          "time_of_day": "Night",
+          "duration": "Several hours"
+        },
+        "evidence": [
+          "Contemporary newspaper accounts",
+          "Physical damage to cabin (reported)",
+          "Multiple consistent witness accounts"
+        ],
+        "credibility": {
+          "rating": "medium",
+          "factors": [
+            "Multiple witnesses",
+            "Contemporary documentation",
+            "Remote location makes hoax difficult",
+            "Some details inconsistent between accounts"
+          ],
+          "notes": "One of the earliest widely-publicized Bigfoot incidents in modern era."
+        },
+        "sources": [
+          "Portland Oregonian, July 1924",
+          "Beck, Fred (1967). I Fought the Apemen of Mt. St. Helens"
+        ],
+        "featured": true
+      }
+    ],
+    "database_path": "./sightings/"
+  },
+
+  "evidence": {
+    "physical": [
+      {
+        "id": "bigfoot-evidence-skookum-cast",
+        "type": "body impression",
+        "name": "Skookum Cast",
+        "date": "2000-09-22",
+        "description": "Large body impression found in muddy elk wallow in Gifford Pinchot National Forest. Shows apparent imprint of buttocks, thigh, and heel.",
+        "location": "Gifford Pinchot National Forest, Washington",
+        "status": "disputed",
+        "analysis": "BFRO researchers claim it shows primate anatomy. Skeptics suggest elk or other known animal.",
+        "source": "BFRO Expedition 2000"
+      },
+      {
+        "id": "bigfoot-evidence-footprints",
+        "type": "footprints",
+        "name": "Documented footprint casts",
+        "date": "Various",
+        "description": "Thousands of footprint casts collected since 1958, ranging from 14-24 inches in length",
+        "status": "disputed",
+        "analysis": "Dr. Jeff Meldrum's analysis suggests some casts show dermatoglyphics (skin ridge patterns) and anatomical consistency unlikely in hoaxes.",
+        "source": "Multiple researchers"
+      }
+    ],
+    "photographic": [
+      {
+        "id": "bigfoot-evidence-pgf",
+        "type": "film",
+        "name": "Patterson-Gimlin Film",
+        "date": "1967-10-20",
+        "description": "53 seconds of 16mm film showing bipedal figure",
+        "status": "disputed",
+        "analysis": "Extensively analyzed. No definitive proof of authenticity or hoax.",
+        "source": "Roger Patterson, Bob Gimlin"
+      }
+    ],
+    "video": [
+      {
+        "id": "bigfoot-evidence-freeman",
+        "type": "video",
+        "name": "Freeman Footage",
+        "date": "1994",
+        "description": "Video recorded by Paul Freeman in Blue Mountains",
+        "status": "disputed",
+        "analysis": "Quality too poor for conclusive analysis",
+        "source": "Paul Freeman"
+      }
+    ],
+    "audio": [
+      {
+        "id": "bigfoot-evidence-sierra-sounds",
+        "type": "audio recording",
+        "name": "Sierra Sounds",
+        "date": "1971-1974",
+        "description": "Series of recordings made in Sierra Nevada mountains by Ron Morehead and Al Berry",
+        "status": "disputed",
+        "analysis": "Analyzed by University of Wyoming linguistics lab. Contains vocalizations not matched to known animals.",
+        "source": "Ron Morehead"
+      }
+    ],
+    "trace": [
+      {
+        "id": "bigfoot-evidence-hair",
+        "type": "hair samples",
+        "name": "Various hair samples",
+        "description": "Hair samples collected from sighting locations",
+        "status": "disputed",
+        "analysis": "Most identified as known animals. Some remain unidentified but not confirmed as unknown primate."
+      }
+    ]
+  },
+
+  "theories": {
+    "paranormal": [
+      {
+        "name": "Interdimensional Being",
+        "description": "Theory that Bigfoot can phase between dimensions, explaining lack of physical evidence",
+        "proponents": ["John Keel"],
+        "evidence_cited": ["Witnesses reporting sudden disappearances", "Lack of trackways ending abruptly"]
+      }
+    ],
+    "scientific": [
+      {
+        "name": "Surviving Gigantopithecus",
+        "description": "Bigfoot represents a surviving population of Gigantopithecus blacki, an extinct giant ape",
+        "proponents": ["Grover Krantz", "Jeff Meldrum"],
+        "evidence_cited": ["Size estimates consistent", "Asian land bridge migration possible"]
+      },
+      {
+        "name": "Unknown Great Ape",
+        "description": "An undiscovered North American great ape species",
+        "proponents": ["Jane Goodall (expressed openness)"],
+        "evidence_cited": ["Gorillas discovered only in 1902", "Large habitat areas remain remote"]
+      }
+    ],
+    "skeptical": [
+      {
+        "name": "Misidentification",
+        "description": "Sightings are misidentifications of bears, especially when standing upright",
+        "proponents": ["Benjamin Radford", "Joe Nickell"],
+        "evidence_cited": ["Bears can walk bipedally", "Similar size and coloration"]
+      },
+      {
+        "name": "Hoax tradition",
+        "description": "Cultural phenomenon perpetuated by hoaxes and media attention",
+        "proponents": ["Michael Shermer"],
+        "evidence_cited": ["Documented hoaxes like Ray Wallace", "Increase in sightings correlates with media coverage"]
+      }
+    ]
+  },
+
+  "cultural": {
+    "folklore": {
+      "traditions": [
+        "Sts'ailes First Nation Sasquatch traditions",
+        "Lummi Ts'emekwes legends",
+        "Yakama wild man stories"
+      ],
+      "stories": [
+        "Muchalat Harry abduction (1928)",
+        "Albert Ostman abduction account (1924)"
+      ],
+      "beliefs": "Many Indigenous nations consider these beings as real, spiritual, and deserving of respect. Some traditions warn against seeking them out."
+    },
+    "indigenous": {
+      "cultures": [
+        "Sts'ailes",
+        "Lummi",
+        "Yakama",
+        "Salish",
+        "Hoopa"
+      ],
+      "significance": "Integral part of traditional knowledge systems. Often viewed as forest people or wild men with spiritual significance.",
+      "sensitivity_note": "These traditions predate and are distinct from modern 'Bigfoot' phenomenon. Researchers should approach Indigenous perspectives with respect.",
+      "respect_guidelines": "Consult tribal authorities before investigating on tribal lands. Do not appropriate or misrepresent Indigenous beliefs."
+    },
+    "popular_culture": {
+      "literature": [
+        "\"Sasquatch: Legend Meets Science\" by Jeff Meldrum (2006)",
+        "\"Bigfoot: The Life and Times of a Legend\" by Joshua Blu Buhs (2009)",
+        "\"Where Bigfoot Walks\" by Robert Michael Pyle (1995)"
+      ],
+      "film_tv": [
+        "The Legend of Boggy Creek (1972)",
+        "Harry and the Hendersons (1987)",
+        "Finding Bigfoot (TV series, 2011-2018)",
+        "Sasquatch (Hulu documentary, 2021)"
+      ],
+      "games": [
+        "Red Dead Redemption 2 (Easter egg)",
+        "Grand Theft Auto V (Easter egg)"
+      ],
+      "other": [
+        "Beef jerky mascot (Jack Link's)",
+        "Annual Bigfoot festivals",
+        "Tourism industry in Pacific Northwest"
+      ]
+    }
+  },
+
+  "research": {
+    "researchers": [
+      {
+        "name": "Dr. Grover Krantz",
+        "affiliation": "Washington State University",
+        "contribution": "First academic to seriously study Bigfoot evidence; analyzed footprint casts",
+        "period": "1960s-2002"
+      },
+      {
+        "name": "Dr. Jeff Meldrum",
+        "affiliation": "Idaho State University",
+        "contribution": "Leading academic researcher; extensive footprint analysis and biomechanical studies",
+        "period": "1996-present"
+      },
+      {
+        "name": "John Green",
+        "affiliation": "Independent researcher",
+        "contribution": "Compiled extensive database of sighting reports; authored multiple books",
+        "period": "1950s-2016"
+      }
+    ],
+    "organizations": [
+      {
+        "name": "Bigfoot Field Researchers Organization (BFRO)",
+        "url": "https://www.bfro.net",
+        "focus": "Field research and sighting database"
+      },
+      {
+        "name": "North American Wood Ape Conservancy",
+        "url": "https://www.woodape.org",
+        "focus": "Scientific research and habitat preservation"
+      }
+    ],
+    "ongoing_studies": "Active research includes environmental DNA (eDNA) sampling, acoustic monitoring, and trail camera networks in hotspot areas."
+  },
+
+  "sources": [
+    {
+      "id": "meldrum-2006",
+      "type": "book",
+      "title": "Sasquatch: Legend Meets Science",
+      "authors": ["Jeff Meldrum"],
+      "publication": "Forge Books",
+      "date": "2006",
+      "isbn": "978-0765312174"
+    },
+    {
+      "id": "buhs-2009",
+      "type": "book",
+      "title": "Bigfoot: The Life and Times of a Legend",
+      "authors": ["Joshua Blu Buhs"],
+      "publication": "University of Chicago Press",
+      "date": "2009",
+      "isbn": "978-0226079790"
+    },
+    {
+      "id": "bfro-database",
+      "type": "website",
+      "title": "BFRO Sighting Database",
+      "url": "https://www.bfro.net/gdb/",
+      "accessed": "2025-01-15"
+    }
+  ]
+}
