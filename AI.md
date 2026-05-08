@@ -1,611 +1,173 @@
-# AI.md - Wyrdness Project Guide for AI Assistants
+# Global Claude Rules
 
-**Location**: `.github/AI.md`  
-**Version**: 1.0.1  
-**Last Updated**: 2026-02-13  
-**Purpose**: Complete reference for AI agents working with the Wyrdness paranormal phenomena archive
+## Communication
+1. **Useful beats pleasant** - Push back when wrong, disagree when warranted, correct when needed. Don't validate for validation's sake
+2. **Never guess** - If unsure, ask first
+3. **`?` = question** - User ending with `?` is asking, not commanding. Answer or clarify, don't execute
+4. **Multi-question wizard** - Where AskUserQuestion is available (e.g., claude.ai), batch questions wizard-style instead of one at a time
+5. **Numbered questions in terminal** - In text-only contexts, number multiple questions so the user replies "1: ...", "2: ..." instead of re-typing
+6. **Match user terminology** - Use the user's names, concepts, abbreviations; don't rename their domain language
+7. **Brace notation** - `{name}` is a placeholder to substitute; `name` (no braces) is literal. `https://{domain}/api` -> substitute the domain. `https://domain/api` -> literal string with the word "domain"
 
-> **⚠️ READ THIS FIRST**: AI agents should read this entire file before performing any work on the Wyrdness project. It contains all necessary context, standards, and workflows.
+## Code & File Operations
+8. **Read before writing** - View a file's current state before editing
+9. **Stay in scope** - Don't refactor, reformat, or "improve" code unrelated to the request
+10. **Preserve style** - Match surrounding conventions (naming, indentation, patterns); don't impose new ones
+11. **Ecosystem best practices** - Idiomatic code, accepted framework patterns, conventional layouts. Run the standard linter/formatter. Don't reinvent settled conventions
+12. **Use standards, don't reinvent** - POSIX/sysexits exit codes, HTTP status codes, applicable RFCs, language/platform specs, established formats (JSON/YAML/TOML/OpenAPI/semver/ISO 8601). Don't invent new codes, headers, error schemes, or wire protocols when a standard exists
+13. **No scope creep** - No unrequested features, files, or abstractions. Implicit scope is OK: "parity with X" or "replace Y" includes all of X/Y's features, plus the plumbing (routes, APIs, schemas, DB tables, internal modules) needed to make those features work. Features != plumbing -- match the feature set, build the plumbing it needs
+14. **Edit, don't rewrite** - Targeted edits over full-file rewrites unless asked
+15. **Required deps OK; ask on choices** - Add necessary dependencies without asking. Ask first only when (a) meaningful choice between viable alternatives, (b) introduces a new external service, or (c) conflicts with project principles (e.g., adds telemetry)
 
----
+## Verification & Safety
+16. **Confirm destructive ops** - Pause before `rm -rf`, force pushes, dropping tables, deleting branches, anything irreversible
+16a. **Never run unrequested destructive ops, even to "fix"** - Troubleshooting (credential mismatch, broken state, test/deploy failure) does NOT justify destructive fixes (delete volume, drop DB, wipe dir, force-push, terminate cloud resource, remove stateful container). Stop and ask. Blast radius on persistent state, cloud volumes, or shared infra is total. Ref: April 2026 PocketOS incident -- agent wiped prod DB + 3mo of backups in 9s while "fixing" a staging credential issue
+16b. **Never auto-bypass a hook block** - If a PreToolUse hook returns `BLOCKED (TIER 2)`, do NOT retry with `# CONFIRM_DESTRUCTIVE` appended. Tell the user what was blocked and what it would destroy; only the user adds the marker
+17. **No fabricated APIs** - If unsure whether a function/flag/library exists, verify rather than invent
+18. **Cite the source** - When referencing existing code, name the file and line; don't paraphrase from memory
+19. **Fix in-scope, stop on out-of-control** - Fix code errors, config typos, missing flags, syntax. Stop only on: unreachable upstream, third-party outage, missing user credentials, network/hardware
 
-## 🎯 Project Overview
+## Self-Validation
+20. **Run the code** - Don't deliver "done" without running it; actually run it, run tests, hit the endpoint
+21. **Verify against ground truth** - UI: compare to design/screenshot. Logic: compare to expected output. Data: spot-check a sample
+22. **Iterate until passing** - Don't stop at "compiles"; keep going until success criteria are met
+23. **Define success up front** - Before non-trivial work, state what "done" looks like (test passes, output matches, lint clean)
+24. **Add tests for new behavior** - For non-trivial functionality: add a test that fails before and passes after, then run it
+25. **Reusable verification** - Where it makes sense, leave a script, integration test, or `make` target for the next iteration to self-verify
+26. **Plan complex work first** - 3+ files, multi-step, or ambiguous: outline the plan first. In Claude Code, use plan mode
+27. **One task per thread** - Don't fold an unrelated task into an in-progress conversation; start fresh
 
-**Wyrdness** is a comprehensive, structured archive of paranormal phenomena, cryptids, folklore, and unexplained mysteries from around the world. Each phenomenon is documented in its own repository with standardized data structures for both human and machine consumption.
+## Build & Execution Environment
+28. **Rolling tags for dev tooling** - Build/dev images use the rolling tag (`golang:alpine`, `rust:alpine`, `node:alpine`, `python:alpine`); the point is current toolchain
+29. **Never run built binaries on host** - Run inside a container. **Prefer Incus over Docker**
+30. **Cross-platform default** - Target both `linux/amd64` and `linux/arm64` unless explicitly scoped to one
+31. **Reproducible builds** - Builds happen in containers with declared toolchain images; never rely on what's installed on the host
 
-### Core Principles
-1. **Data Accuracy**: Every claim must be sourced and cited
-2. **Neutral Tone**: Present facts without bias toward belief or skepticism  
-3. **Structured Data**: Both README.md (human) and api.json (machine) formats
-4. **Open Access**: CC0-1.0 for data, CC-BY-4.0 for content
-5. **Respect**: Honor cultural origins and Indigenous knowledge systems
+## Project Defaults
+32. **MIT license** - Default for new projects unless specified
+33. **Single-binary deployment** - One self-contained binary, zero runtime deps; no scattered files/services/sidecars
+34. **Sane defaults** - First-run with no config works for the common case; config is for tuning, not getting started
+35. **No feature gating** - Full functionality available; no paywalls, "pro" tiers, premium features
+36. **Telemetry opt-in; public endpoints OK as default** - Analytics (Piwik/Matomo, Plausible, GA) are configurable hooks, off until user supplies tracking ID/credentials. Public hosted + self-hostable services: hardcoding the public FQDN as default is fine, must be user-overridable. Never hardcode tracking IDs, site keys, or credentials
+37. **Mobile-responsive web UIs** - Work on mobile from the start, not retrofitted
+38. **Secure by design, invisible to user** - Security in code, not user-facing friction. Guard against SQLi, enumeration (uniform errors, constant-time compare), races, CSRF, XSS, SSRF, path traversal, IDOR, ReDoS, deserialization. No arbitrary password rules, captcha gauntlets, excessive re-verification
+39. **Never hardcode secrets -- repos are public** - Assume all repos are public. Never commit passwords, API keys, tokens, certs, OAuth secrets, DB URIs with creds, internal hostnames/IPs, customer data, tracking codes. Use env vars, gitignored config, or secret manager. Scan for leaks before commit
 
----
+## Output Style
+40. **No filler preamble** - Skip "Great question!", "Certainly!", "I'd be happy to help"
+41. **No reflexive agreement** - Don't say "you're absolutely right" before re-examining the claim
+42. **No closing recap** - Don't summarize what was just done unless asked
+42a. **Tight output budget** - Status updates (during multi-step work) or requested summaries: 1-3 sentences max. No headers/bullets/sections unless the task requires structured output. Output tokens cost 4-6x input -- terseness compounds across every turn
+43. **Show diffs, not retellings** - For code changes, show the actual change, not prose
+44. **No emojis unless asked** - Plain text by default
+45. **Don't pause for "continue?"** - If next step is clear, do it. Pause only when genuinely blocked: real decision needed, missing info, or destructive-op confirmation
+45a. **No AI attribution** - Never add `Co-Authored-By:`, AI-tool trailers, "Generated with X" footers, or any AI attribution to commits, PRs, code comments, anywhere. AI runs on behalf of the user, not as a contributor. Editing AI-config files (CLAUDE.md, settings.json, hooks, `.agent/*`) does NOT count as attribution -- the rule is about identity in metadata, not which files were touched
 
-## 📁 Repository Structure
+## Token & Context Discipline
+46. **Use the Explore subagent for broad codebase searches** - Searches spanning 3+ files, unknown locations, or multiple naming conventions: dispatch via Explore. Don't grep-walk in main context -- the search results bloat conversation history forever. Direct `grep`/`find` is fine for one specific known target
+47. **Read files narrowly** - For files >500 lines: use `offset`/`limit`, or grep first to find the slice. Don't load 2000 lines when you need 50
+48. **Don't re-read after editing** - Edit/Write would have errored if the change failed; the harness tracks file state. No verification re-Read needed
+49. **One run, then fix** - Run build/test once per change. Don't loop on flaky failures without a hypothesis; don't re-run to "see if it still fails"
+50. **Parallelize independent research via subagents** - Multiple independent questions: spawn agents in parallel (single message, multiple Agent calls). Their context is isolated; only their summary returns to main
+50a. **Haiku via Agent for trivial tasks** - Renames, format conversions, single-line edits, simple lookups, mechanical refactors: spawn via `Agent` with `model: "haiku"`. Haiku is ~3x cheaper than Sonnet and adequate for unambiguous work. Reserve Sonnet for tasks needing judgment, multi-file coordination, or design decisions
 
-### Root Directory Layout
+## Spec & Workflow (Spec Agent Protocol)
+51. **Spec is source of truth** - SPECs are `AI.md`, TODOs are `TODO.AI.md`. Defer to these; flag drift, don't silently follow conversational direction
+52. **`.agent/` layout** - Every project has `.agent/rules.md`, `.agent/state.json`, `.agent/changelog.md`
+53. **Drift check every turn** - Before responding to a dev request, verify it matches active `AI.md` + `.agent/state.json`; flag divergence before acting
+54. **Never build unspec'd features** - If a request isn't in spec, ask whether to update the spec first
+55. **Keep `.agent/state.json` current** - Update on task start, completion, blockers, milestones
+56. **Update changelog** - After substantive changes, log to `.agent/changelog.md`
+57. **Capture learnings** - After completing a task, record reusable gotchas/conventions/patterns in `CLAUDE.md` or the relevant skill file
 
-```
-wyrdness/
-├── .github/                    # GitHub configuration and templates
-│   ├── AI.md                  # 👈 THIS FILE - Read this first!
-│   ├── VERIFICATION_SUMMARY.md # Repository compliance summary
-│   ├── templates/             
-│   │   ├── api.example.json   # Template for api.json files
-│   │   ├── README.template.md # Template for README files
-│   │   └── repo/              # Full repository template
-│   ├── schemas/               # JSON schemas for validation
-│   ├── CONTRIBUTING.md        # Contribution guidelines
-│   ├── CODE_OF_CONDUCT.md     # Community standards
-│   ├── REPO_TEMPLATE.md       # Repository structure spec
-│   └── README.md              # Project overview
-│
-├── {phenomenon-name}/         # Individual phenomenon repositories (517 total)
-│   ├── README.md              # Human-readable documentation
-│   ├── api.json               # Machine-readable structured data
-│   ├── LICENSE or LICENSE.md  # Repository license
-│   ├── CHANGELOG.md           # Version history
-│   ├── SOURCES.md             # Bibliography (optional but recommended)
-│   ├── sightings/             # Documented encounters
-│   │   ├── YYYY/              # Organized by year
-│   │   └── historical/        # Pre-1900 sightings
-│   └── media/                 # Supporting evidence
-│       ├── images/
-│       ├── audio/
-│       └── documents/
-│
-├── generate-api-json.js       # Script to create api.json from README
-├── verify-repos.js            # Repository compliance checker
-├── verification-report.json   # Latest compliance report
-└── wyrdness.github.io/        # Public website
-```
-
----
-
-## 📄 Required Files (Per Phenomenon Repository)
-
-### 1. README.md
-**Purpose**: Human-readable documentation of the phenomenon
-
-**Required Sections**:
-- Title (# Phenomenon Name)
-- Overview section with description
-- Category metadata (**Category**: VALUE)
-- Cultural origin (**Cultural Origin**: VALUE)
-- Physical description
-- History and origins
-- Notable sightings
-- Evidence
-- Sources/bibliography
-
-**Format Notes**:
-- Use Markdown formatting
-- Include metadata in bold: `**Category**: CRYPTID`
-- First substantial paragraph becomes summary in api.json
-- Must stay in sync with api.json content
-
-### 2. api.json
-**Purpose**: Machine-readable structured data
-
-**Required Structure**:
-```json
-{
-  "meta": {
-    "version": "1.0.0",
-    "schema_version": "1.0.0",
-    "last_updated": "YYYY-MM-DD",
-    "repository": "https://github.com/wyrdness/{phenomenon}",
-    "maintainers": [...],
-    "license": {
-      "data": "CC0-1.0",
-      "content": "CC-BY-4.0"
-    }
-  },
-  "phenomenon": {
-    "id": "phenomenon-name",
-    "name": "Display Name",
-    "aliases": [...],
-    "category": "CATEGORY_NAME",
-    "subcategory": "Type",
-    "tags": [...],
-    "status": "documented|active|historical",
-    "description": {
-      "summary": "One sentence summary",
-      "full": "Complete description"
-    },
-    "etymology": {...}
-  },
-  "classification": {...},
-  "characteristics": {...},
-  "distribution": {...},
-  "history": {...},
-  "sightings": {...},
-  "evidence": {...},
-  "theories": {...},
-  "cultural": {...},
-  "research": {...},
-  "sources": [...]
-}
-```
-
-**See**: `templates/api.example.json` in this directory for complete example
-
-### 3. LICENSE or LICENSE.md
-Standard open license file
-
-### 4. CHANGELOG.md
-Version history and changes
-
-### 5. SOURCES.md (Recommended)
-Full bibliography with proper citations
+## Commit Workflow
+58. **`gitcommit` is the only commit path** - Plain `git commit` and `git push` are denied. The `gitcommit` wrapper at `/usr/local/bin/gitcommit` signs, commits, AND pushes in one invocation. See rule 59 for the only correct invocation form. User pre-approved the workflow -- commit without asking each time, but verify the message before running
+59. **Only invocation: `gitcommit --dir {dir} all`** - `{dir}` = the project root path. `all` is the ONLY command. Semantic types (`improved`, `new`, `fixes`, `docs`, `test`, `release`, etc.) and per-status types (`modified`, `deleted`, `renamed`, etc.) loop over changed files and produce one commit PER FILE -- never what we want. Message MUST be in `{dir}/.git/COMMIT_MESS` first. Never use `-m` / `--message` -- they bypass the file
+60. **Pre-commit: status -> write -> re-read -> commit** - (1) `git status --porcelain` + `git diff --stat` to see actual changes. (2) Write COMMIT_MESS matching `git status` exactly: every changed file listed by path, each change described, no leftover content from prior commits, nothing missing. (3) Re-read to verify. (4) Run `gitcommit --dir {dir} all`. The wrapper deletes COMMIT_MESS on commit-success -- every commit starts fresh
+61. **Format: `{emoji} Title <=64ch {emoji}` + body + `- path: change` bullets** - Emoji per type: ✨ feat / 🐛 fix / 📝 docs / 🎨 style / ♻️ refactor / ⚡ perf / ✅ test / 🔧 chore / 🔒 security / 🗑️ remove / 🚀 deploy / 📦 deps. (Rule 44 "no emojis" does not apply -- commit messages follow project convention)
+62. **Cadence: small and often** - One logical change per commit. Diff spans unrelated subsystems -> split. Function + its test = one commit. Typo fix + the test catching it = one commit. Two unrelated fixes = two commits. Mid-task with files in inconsistent state: do NOT commit
+63. **gitcommit pushes immediately, is irreversible** - Once it runs, the change is on the remote and visible. Wrong message -> wrong public history. To skip push: `touch .no_push` at repo root first (rare; confirm with user). Push failed (offline/no-remote): run `gitcommit push` later -- do NOT recreate COMMIT_MESS
 
 ---
 
-## 🏷️ Category System
+# Wyrdness Project Rules
 
-### Valid Categories
+## Source of truth
 
-**Primary Categories**:
-- `CRYPTID` - Undiscovered animals/creatures (85 repos)
-- `ENTITY_SPIRIT` - Supernatural beings, spirits, demons (78 repos)
-- `MYTHOLOGICAL_CREATURE` - Traditional mythology creatures (52 repos)
-- `GHOST_HAUNTING` - Ghosts, hauntings, apparitions
-- `UNDEAD` - Vampires, revenants, zombies
-- `DEMON_ANGEL` - Demons, fallen angels, celestial beings
-- `FAE_FOLKLORE` - Fairies, fae folk, nature spirits
-- `SHAPESHIFTER` - Beings that change form
-- `UFO_UAP` - Unidentified flying objects
-- `URBAN_LEGEND` - Modern folklore, creepypasta
-- `CONSPIRACY_THEORY` - Conspiracy theories
-- `ANOMALY` - Reality glitches, time slips
-- `PSYCHIC_PHENOMENA` - ESP, telepathy, precognition
-- `ATMOSPHERIC_PHENOMENON` - Unexplained lights, sounds
-- `LOCATION` - Haunted or mysterious places
-- `HAUNTED_LOCATION` - Specific haunted sites
-- `ARCHAEOLOGICAL_MYSTERY` - Ancient unexplained sites
-- `HISTORICAL_MYSTERY` - Unsolved historical events
+`api.json` in each phenomenon repo is the single source of truth for that repo's data. `README.md` and `SOURCES.md` are derived outputs — regenerated via `make repo-docs`. Never edit them directly; edit `api.json` and regenerate.
 
-**Category Guidelines**:
-- Use UPPERCASE with underscores
-- Primary category only (no slashes or commas)
-- If multiple categories apply, choose the primary one
-- Document in README as: `**Category:** CRYPTID`
+## Tooling rules
 
----
+All Node/npm tooling runs inside Docker via `wyrdness.github.io/Makefile`. Never run `node` or `npm` directly on the host.
 
-## 🔧 Common Tasks
+Key targets (run from `wyrdness.github.io/`):
+- `make validate-schema` — validate all api.json files against the schema
+- `make build` — regenerate site (aggregate + categories + stats + pages)
+- `make repo-docs [ONLY={id}]` — regenerate README.md + SOURCES.md from api.json
+- `make normalize-categories[-apply]` — dry-run or apply category normalization
+- `make research ID={id} [APPLY=1] API_KEY=...` — research one phenomenon via API
 
-### Creating a New Phenomenon Repository
+## Script placement rules
 
-1. **Create directory**: `{phenomenon-name}/` (lowercase, hyphens)
-2. **Create README.md**: Use `.github/templates/README.template.md` as template
-3. **Generate api.json**: Run `node generate-api-json.js` (from root) OR create manually
-4. **Add LICENSE**: Copy from `.github/templates/` or existing repo
-5. **Create CHANGELOG.md**: Start with version 1.0.0
-6. **Create directories**: `sightings/` and `media/`
-7. **Add SOURCES.md**: Bibliography (recommended)
-8. **Verify**: Run `node verify-repos.js` (from root)
+- `wyrdness.github.io/scripts/` — site-building scripts only (aggregate-*, generate-*)
+- `.github/scripts/` — project-wide scripts (validate, normalize, research, repo-docs, verify)
+- `./{repo}/scripts/` — repo-specific scripts
 
-### Updating api.json
+## api.json schema constraints
 
-**Manual Method**:
-1. Edit api.json directly
-2. Update corresponding sections in README.md
-3. Bump version number
-4. Update last_updated date
+Schema: `.github/schemas/api.schema.json`. Reference: `bigfoot/api.json`.
 
-**Automated Method**:
-1. Update README.md with new content
-2. Run `node generate-api-json.js` to regenerate
-3. Review and adjust generated content
-4. Update version and date
+Enum fields — only these values are valid:
 
-**Critical**: README.md and api.json must stay in sync!
+| Field | Values |
+|---|---|
+| `phenomenon.category` | CRYPTID, UFO_UAP, GHOST_HAUNTING, ENTITY_SPIRIT, DEMON_ANGEL, FAE_FOLKLORE, UNDEAD, SHAPESHIFTER, PSYCHIC_PHENOMENA, LOCATION, ANOMALY, URBAN_LEGEND, MYTHOLOGICAL_CREATURE, ATMOSPHERIC_PHENOMENON, CONSPIRACY_THEORY, CULTURAL_ARTIFACT |
+| `phenomenon.status` | active, historical, dormant, debunked, unverified, documented |
+| `phenomenon.aliases[]` | objects `{name, language?, region?, meaning?}` — never plain strings |
+| `characteristics.behavior.activity_period` | nocturnal, diurnal, crepuscular, variable, unknown |
+| `characteristics.behavior.disposition` | aggressive, defensive, passive, neutral, curious, variable, unknown |
+| `characteristics.behavior.social_structure` | solitary, pair, family_group, pack, colony, variable, unknown |
+| `characteristics.physical.features[].frequency` | always, common, occasional, rare |
+| `characteristics.abilities[].frequency` | always, common, occasional, rare |
+| `characteristics.abilities[].evidence_level` | documented, reported, folklore, speculation |
+| `classification.related_phenomena[].relationship` | similar, related, subset, superset, counterpart, regional_variant |
+| `evidence.*[].status` | verified, disputed, debunked, unverified, lost |
+| `sightings.notable[].date.precision` | exact, approximate, range, unknown |
+| `sightings.notable[].date.value` | YYYY-MM-DD (YYYY-01-01 if only year known; YYYY-MM-01 if only month known) |
+| `sightings.notable[].credibility.rating` | high, medium, low, unverified |
+| `sources[].type` | book, article, paper, website, documentary, interview, news, archive, other |
+| `meta.version` | "1.1.0" |
+| `meta.last_updated` | current date YYYY-MM-DD |
 
-### Fixing Missing Files
+## Data accuracy rules
 
-If `verify-repos.js` reports issues:
+Applies whenever api.json content is created or modified:
 
-**Missing CHANGELOG.md**:
-```bash
-for dir in {list}; do
-  echo "# Changelog\n\n## [1.0.0] - $(date +%Y-%m-%d)\n- Initial documentation" > "$dir/CHANGELOG.md"
-done
-```
-
-**Missing directories**:
-```bash
-for dir in {list}; do
-  mkdir -p "$dir/sightings" "$dir/media"
-done
-```
-
-**Missing LICENSE**:
-```bash
-cp .github/templates/LICENSE "$dir/"
-```
-
-### Fixing UNKNOWN Categories
-
-1. **Check README.md** for `**Category:**` field
-2. **If not found**, check `## Category` header
-3. **If still not found**, infer from:
-   - Phenomenon name and type
-   - Cultural context
-   - Related phenomena
-4. **Update both** api.json and README.md
-5. **Valid format**: `**Category:** CRYPTID`
-
-Script example:
-```javascript
-const api = JSON.parse(fs.readFileSync('phenomenon/api.json'));
-api.phenomenon.category = 'CRYPTID';
-api.classification.taxonomy.category = 'CRYPTID';
-fs.writeFileSync('phenomenon/api.json', JSON.stringify(api, null, 2) + '\n');
-```
+- Never fabricate dates, witness names, ISBNs, DOIs, coordinates, or source titles
+- Only include facts found in sources you actually fetched
+- Sightings: both `date.value` and `location.description` must come from a fetched source; omit if either cannot be verified
+- Web sources: include `url` and `accessed: "YYYY-MM-DD"`
+- Empty arrays are correct — honest empties beat fabricated data
+- Indigenous/cultural traditions: respectful framing; distinguish folklore from cryptozoological framing
 
 ---
 
-## 📋 Naming Conventions
+# .github Repo Rules
 
-| Item | Convention | Example |
-|------|------------|---------|
-| Repository name | lowercase-with-hyphens | `loch-ness-monster` |
-| Phenomenon ID | same as repo name | `loch-ness-monster` |
-| Display name | Proper Capitalization | `Loch Ness Monster` |
-| Sighting files | `YYYY-MM-DD-location.json` | `1967-10-20-bluff-creek.json` |
-| Media files | `YYYY-description.ext` | `1967-patterson-gimlin.jpg` |
-| Evidence IDs | `{id}-{type}-{number}` | `bigfoot-evidence-001` |
+## What this repo controls
 
----
+This is the org-wide config repo. Changes here can affect all 515 phenomenon repos and the site.
 
-## 🎨 Documentation Style Guide
+## Schema changes
 
-### Tone and Voice
-- **Neutral and factual**: Present information without editorializing
-- **Respectful**: Honor cultural traditions and beliefs
-- **Academic but accessible**: Clear language, proper citations
-- **Balanced**: Present both supporting evidence and skeptical views
+`schemas/api.schema.json` is the validation schema for every phenomenon repo's `api.json`. Any change to the schema:
+- Must be backward-compatible unless all 515 repos are updated in the same change
+- Must be followed immediately by `make validate-schema` from `../wyrdness.github.io/` to confirm nothing breaks
 
-### Writing Guidelines
-- Use present tense for ongoing phenomena
-- Use past tense for historical accounts
-- Cite every claim with sources
-- Distinguish between:
-  - Verified facts
-  - Reported claims
-  - Speculation/theories
-  - Cultural beliefs
+## Scripts
 
-### Formatting
-- Use `**bold**` for metadata labels
-- Use `*italic*` for emphasis
-- Use `> blockquotes` for witness testimony
-- Use `---` for section dividers
-- Use tables for structured comparisons
+`scripts/` contains project-wide maintenance scripts. They are invoked via `Makefile` in `../wyrdness.github.io/` — not run directly. Don't add site-building scripts here; those belong in `../wyrdness.github.io/scripts/`.
 
----
+## Templates
 
-## 🔍 Validation and Quality Checks
-
-### Automated Checks
-
-**Run verification**:
-```bash
-node verify-repos.js
-```
-
-**Check JSON validity**:
-```bash
-for file in */api.json; do 
-  jq empty "$file" 2>/dev/null || echo "Invalid: $file"
-done
-```
-
-**Check category distribution**:
-```bash
-jq -r '.phenomenon.category' */api.json | sort | uniq -c | sort -rn
-```
-
-**Find UNKNOWN categories**:
-```bash
-jq -r 'select(.phenomenon.category == "UNKNOWN") | .phenomenon.id' */api.json
-```
-
-### Manual Quality Checks
-
-✅ **README.md checklist**:
-- [ ] Title matches phenomenon name
-- [ ] Has Overview section
-- [ ] Category metadata present
-- [ ] Cultural origin specified
-- [ ] Proper citations in sources
-- [ ] No broken links
-- [ ] Respectful of cultural context
-
-✅ **api.json checklist**:
-- [ ] Valid JSON (no syntax errors)
-- [ ] All required fields present
-- [ ] Summary is one sentence
-- [ ] Category is valid (not UNKNOWN)
-- [ ] Dates in ISO format (YYYY-MM-DD)
-- [ ] Repository URL correct
-- [ ] Version numbers match README
-
----
-
-## 🚨 Common Issues and Solutions
-
-### Issue: Empty or Stub README
-**Symptoms**: README only has 8 lines, just title and author
-**Solution**: Research the phenomenon and create proper documentation
-
-### Issue: UNKNOWN Category
-**Symptoms**: `api.json` shows `"category": "UNKNOWN"`
-**Solution**: 
-1. Check README for category field
-2. Infer from phenomenon type
-3. Update both README and api.json
-
-### Issue: Invalid JSON
-**Symptoms**: Parse errors when reading api.json
-**Solution**:
-- Check for unescaped quotes in descriptions
-- Escape newlines and control characters
-- Use proper JSON string escaping
-
-### Issue: Missing Directories
-**Symptoms**: No sightings/ or media/ folder
-**Solution**: `mkdir -p phenomenon/{sightings,media}`
-
-### Issue: README/api.json Sync
-**Symptoms**: Information differs between files
-**Solution**: 
-1. Determine which is correct
-2. Update the other to match
-3. Bump version numbers
-4. Document in CHANGELOG.md
-
----
-
-## 🤖 Scripts Reference
-
-### generate-api-json.js
-**Purpose**: Create api.json files from README.md content
-
-**Usage**:
-```bash
-node generate-api-json.js
-```
-
-**What it does**:
-- Scans all directories for README.md
-- Extracts metadata (category, origin, description)
-- Generates api.json with proper structure
-- Preserves existing api.json if present
-
-**When to use**:
-- Creating new repositories
-- Bulk updates after README changes
-- Fixing missing api.json files
-
-### verify-repos.js
-**Purpose**: Check repository compliance with template
-
-**Usage**:
-```bash
-node verify-repos.js
-```
-
-**Output**:
-- Lists non-compliant repositories
-- Reports missing files/directories
-- Generates verification-report.json
-
-**When to use**:
-- After bulk changes
-- Before committing
-- Regular quality audits
-
----
-
-## 📚 Reference Files
-
-### Key Files in .github/
-
-- **AI.md** (this file) - Complete guide for AI agents
-- **VERIFICATION_SUMMARY.md** - Current compliance status
-- **templates/api.example.json** - Complete api.json example
-- **templates/README.template.md** - README structure
-- **templates/repo/** - Full repo template
-- **REPO_TEMPLATE.md** - Repository structure specification
-- **CONTRIBUTING.md** - Contribution guidelines
-- **CODE_OF_CONDUCT.md** - Community standards
-- **schemas/** - JSON validation schemas (if present)
-
----
-
-## 🌍 Cultural Sensitivity Guidelines
-
-### Indigenous Knowledge
-- Consult tribal authorities before documenting Indigenous phenomena
-- Do not appropriate or misrepresent beliefs
-- Credit specific nations/tribes, not just "Native American"
-- Include sensitivity notes where appropriate
-- Link to community resources when available
-
-### Sacred Sites
-- Respect restrictions on photography/access
-- Note spiritual significance
-- Include proper names in native languages
-- Acknowledge ongoing cultural importance
-
-### International Phenomena
-- Use proper romanization for non-Latin scripts
-- Include original language names
-- Respect local naming conventions
-- Note regional variations
-- Acknowledge folklore vs. modern interpretations
-
----
-
-## 📊 Current Statistics
-
-**Total Repositories**: 517  
-**Fully Compliant**: 503 (97.3%)  
-**With Issues**: 14 (2.7%)  
-
-**Category Distribution** (Top 10):
-1. CRYPTID - 85
-2. ENTITY_SPIRIT - 78
-3. MYTHOLOGICAL_CREATURE - 52
-4. FAE_FOLKLORE - 17
-5. UNDEAD - 16
-6. GHOST_HAUNTING - 13
-7. DEMON_ANGEL - 11
-8. ATMOSPHERIC_PHENOMENON - 11
-9. URBAN_LEGEND - 10
-10. SHAPESHIFTER - 9
-
-**Common Issues**:
-- Missing CHANGELOG.md: 16 repos
-- Missing sightings/ or media/: 12 repos  
-- Missing SOURCES.md (optional): 129 repos
-
----
-
-## 🔄 Workflow for AI Agents
-
-### When Asked to Create New Phenomenon
-
-1. **Research**: Verify phenomenon exists and gather sources
-2. **Check duplicates**: Search existing repos for similar entries
-3. **Create structure**:
-   ```bash
-   mkdir {phenomenon-name}
-   mkdir {phenomenon-name}/{sightings,media}
-   ```
-4. **Write README.md**: Follow template, include all required sections
-5. **Generate api.json**: Run script or create manually
-6. **Add supporting files**: LICENSE, CHANGELOG.md, SOURCES.md
-7. **Verify**: Run `node verify-repos.js`
-8. **Review**: Check category, sources, cultural sensitivity
-
-### When Asked to Update Existing Phenomenon
-
-1. **Read current files**: View README.md and api.json
-2. **Make changes**: Update both files to stay in sync
-3. **Update metadata**: Bump version, update last_updated date
-4. **Document changes**: Add entry to CHANGELOG.md
-5. **Verify**: Check JSON validity and structure compliance
-
-### When Asked to Fix Issues
-
-1. **Run verification**: `node verify-repos.js`
-2. **Identify problems**: Review verification-report.json
-3. **Fix systematically**: Address missing files, categories, etc.
-4. **Re-verify**: Run verification again
-5. **Report results**: Summary of changes made
-
-### When Asked About the Project
-
-1. **Read this file (AI.md)** for comprehensive understanding
-2. **Check specific templates** for detailed examples
-3. **Review existing repos** (e.g., bigfoot, peri) for best practices
-4. **Verify current stats** with verification script
-
----
-
-## ⚡ Quick Command Reference
-
-```bash
-# Verify all repos
-node verify-repos.js
-
-# Generate missing api.json files
-node generate-api-json.js
-
-# Check for UNKNOWN categories
-jq -r 'select(.phenomenon.category == "UNKNOWN") | .phenomenon.id' */api.json
-
-# Count repos by category
-jq -r '.phenomenon.category' */api.json | sort | uniq -c | sort -rn
-
-# Find repos missing files
-for dir in */; do [ ! -f "$dir/api.json" ] && echo $dir; done
-
-# Create missing directories
-for dir in */; do mkdir -p "$dir"/{sightings,media}; done
-
-# Validate all JSON files
-for file in */api.json; do jq empty "$file" || echo "Invalid: $file"; done
-
-# Check README sizes (find stubs)
-for dir in */; do wc -l "$dir/README.md" 2>/dev/null; done | sort -n
-```
-
----
-
-## 📝 Version History
-
-- **1.0.1** (2026-02-13): Moved to `.github/AI.md`
-  - Updated all internal references
-  - Added Quick Start section
-  - Clarified file locations relative to .github/
-  
-- **1.0.0** (2026-02-13): Initial AI.md creation
-  - Complete project structure documentation
-  - Category system definition
-  - Workflow guidelines
-  - Common issues and solutions
-
----
-
-## 🆘 Getting Help
-
-**For AI Agents**:
-1. **READ THIS FILE FIRST** (`.github/AI.md`) - You're reading it now!
-2. Check `REPO_TEMPLATE.md` (in this directory) for structure details
-3. Review `CONTRIBUTING.md` (in this directory) for contribution guidelines
-4. Check `VERIFICATION_SUMMARY.md` (in this directory) for current status
-5. Examine example repos: `bigfoot/`, `peri/`, `phoenix/`
-6. Run `verify-repos.js` (from project root) to understand current state
-
-**For Humans**:
-- See `README.md` in this directory for project overview
-- See `CONTRIBUTING.md` in this directory for contribution process
-- Open issues on GitHub for questions
-
----
-
-## 📌 Quick Start for AI Agents
-
-**First Time Working on Wyrdness?**
-
-1. ✅ Read this entire AI.md file (you're doing it!)
-2. ✅ Run `cd /path/to/wyrdness && node verify-repos.js` to see current state
-3. ✅ Review 2-3 example repos: `bigfoot/`, `mothman/`, `phoenix/`
-4. ✅ Check `VERIFICATION_SUMMARY.md` for known issues
-5. ✅ Now you're ready to work!
-
-**Common Commands** (run from project root):
-```bash
-# Check compliance
-node verify-repos.js
-
-# Generate missing api.json files
-node generate-api-json.js
-
-# Find UNKNOWN categories
-jq -r 'select(.phenomenon.category == "UNKNOWN") | .phenomenon.id' */api.json
-
-# Count by category
-jq -r '.phenomenon.category' */api.json | sort | uniq -c | sort -rn
-```
-
----
-
-**End of AI.md**  
-*This file should be read by AI agents before performing any work on the Wyrdness project.*  
-*Location: `.github/AI.md` - Committed with project configuration*
+`templates/` contains the canonical template for new phenomenon repos. When adding a new phenomenon, start from these templates. Keep them in sync with the current schema version and required file list.

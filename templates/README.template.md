@@ -18,7 +18,7 @@
 | **Classification** | {Sub-classification} |
 | **First Recorded** | {Year or period} |
 | **Primary Region** | {Geographic region} |
-| **Status** | Active / Historical / Debunked / Unknown |
+| **Status** | Active / Historical / Dormant / Debunked / Unverified / Documented |
 
 ---
 

@@ -103,7 +103,11 @@
             "PSYCHIC_PHENOMENA",
             "LOCATION",
             "ANOMALY",
-            "URBAN_LEGEND"
+            "URBAN_LEGEND",
+            "MYTHOLOGICAL_CREATURE",
+            "ATMOSPHERIC_PHENOMENON",
+            "CONSPIRACY_THEORY",
+            "CULTURAL_ARTIFACT"
           ]
         },
         "subcategory": {
@@ -119,7 +123,7 @@
         "status": {
           "type": "string",
           "description": "Current research status",
-          "enum": ["active", "historical", "dormant", "debunked", "unverified"]
+          "enum": ["active", "historical", "dormant", "debunked", "unverified", "documented"]
         },
         "description": {
           "type": "object",
